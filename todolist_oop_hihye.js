@@ -1,3 +1,5 @@
+//done 소요시간 추가
+
 let todoList = [];
 
 const Command = class {
@@ -32,8 +34,9 @@ function printStatus(){
 }
 
 function add(task){
-    let createDate = new Date();
-    todoList.push({id: (todoList.length)+1, task: task, status: "todo", date: createDate});
+    let createDate;
+    todoList.push({id: (todoList.length)+1, task: task, status: "todo", date: createDate = new Date()});
+
     console.log("id: " + todoList[todoList.length-1].id + ", " + todoList[todoList.length-1].task + " 항목이 새로 추가됐습니다.");
     printStatus();
 }
@@ -54,16 +57,26 @@ function show(task){
     }
 }
 
+function dueDate(v, doneDate){
+    let rest = doneDate.getTime() - v.date.getTime();
+    let sec = Math.floor(rest / 1000 % 60);
+    let min = Math.floor(rest / 1000 / 60) % 60;
+    let hours = Math.floor(rest / 1000 / 60 / 60) % 24;
+    let days = Math.floor(rest / 1000 / 60 / 60 / 24)-30;
+
+    console.log("ID " + v.id + "을 " + v.status + "상태로 변경하였습니다. 소요시간은 " + 
+        days + "일 " + hours + ":" + min + ":" + sec + " 입니다.");
+}
+
 function update(updateId, newStatus){
     let doneDate;
-    let dtDiff;
 
     todoList.forEach(function(v){ 
         if(v.id == updateId){
             if(newStatus == "done"){
-                v.status = newStatus
-                doneDate = new Date();
-                console.log(v.status + "상태로 변경하였습니다.");
+                v.status = newStatus;
+                doneDate = new Date(2018,10,30,23,59,59);
+                dueDate(v,doneDate);
             } else {
                 v.status = newStatus;
                 console.log(v.status + "상태로 변경하였습니다.");
