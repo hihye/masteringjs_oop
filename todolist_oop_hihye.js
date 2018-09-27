@@ -1,5 +1,3 @@
-//done 소요시간 추가
-
 let todoList = [];
 
 const Command = class {
@@ -62,7 +60,7 @@ function dueDate(v, doneDate){
     let sec = Math.floor(rest / 1000 % 60);
     let min = Math.floor(rest / 1000 / 60) % 60;
     let hours = Math.floor(rest / 1000 / 60 / 60) % 24;
-    let days = Math.floor(rest / 1000 / 60 / 60 / 24)-30;
+    let days = Math.floor(rest / 1000 / 60 / 60 / 24)-30; // day 차이가 있을 경우 한 달 차이가 나는데 아직 이렇게 밖에 계산을... ㅠㅠ
 
     console.log("ID " + v.id + "을 " + v.status + "상태로 변경하였습니다. 소요시간은 " + 
         days + "일 " + hours + ":" + min + ":" + sec + " 입니다.");
@@ -75,11 +73,11 @@ function update(updateId, newStatus){
         if(v.id == updateId){
             if(newStatus == "done"){
                 v.status = newStatus;
-                doneDate = new Date(2018,10,30,23,59,59);
+                doneDate = new Date(2018,10,30,23,59,59); // 임의로 완료시간 세팅함
                 dueDate(v,doneDate);
             } else {
                 v.status = newStatus;
-                console.log(v.status + "상태로 변경하였습니다.");
+                console.log("ID " + v.id + "을 " + v.status + "상태로 변경하였습니다.");
              }
         }
     });
