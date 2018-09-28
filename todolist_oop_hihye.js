@@ -5,9 +5,6 @@ const Command = class {
         this.inputTask = inputChr.toLowerCase().replace(/[\t\s]/g,'').split("$");
         this.fn = this.inputTask[0];
         this.task = this.inputTask[1];
-        this.todoCount;
-        this.doingCount;
-        this.doneCount; 
     }
 
     setFn(){
@@ -51,13 +48,10 @@ const Command = class {
         switch(task){
             case "todo":
                 taskStatus.todo.forEach((v) => console.log("show: todo 상태인 id: " + v.id + ", " + v.task));
-                break;
             case "doing":
                 taskStatus.doing.forEach((v) => console.log("show: doing 상태인 id: " + v.id + ", " + v.task));
-                break;
             case "done":
                 taskStatus.done.forEach((v) => console.log("show: done 상태인 id: " + v.id + ", " + v.task));
-                break;
         }
     }
 
