@@ -1,13 +1,16 @@
-let todoList = [];
-
 const Command = class {
-    constructor(inputChr){
+    constructor(){
+        this.todoList = [];
+        this.inputTask;
+        this.fn;
+        this.task;
+    }
+
+    orderTask(inputChr){
         this.inputTask = inputChr.toLowerCase().replace(/[\t\s]/g,'').split("$");
         this.fn = this.inputTask[0];
         this.task = this.inputTask[1];
-    }
 
-    setFn(){
         if(this.fn == "add") this.fn = this.add(this.task);
         else if(this.fn == "show") this.fn = this.show(this.task);
         else if(this.fn == "update") this.fn = this.update(this.task, this.inputTask[2]); 
@@ -15,10 +18,10 @@ const Command = class {
     }
 
     checkStatus(){
-        todoList.forEach((v)=>{
-            this.todoTask = todoList.filter(v => v.status === "todo");
-            this.doingTask = todoList.filter(v => v.status === "doing");
-            this.doneTask = todoList.filter(v =>  v.status === "done");
+        this.todoList.forEach((v)=>{
+            this.todoTask = this.todoList.filter(v => v.status === "todo");
+            this.doingTask = this.todoList.filter(v => v.status === "doing");
+            this.doneTask = this.todoList.filter(v =>  v.status === "done");
         });
     
         let taskStatusArr = { todo: this.todoTask, doing: this.doingTask, done: this.doneTask };
@@ -26,24 +29,21 @@ const Command = class {
     }
     
     printStatus(){
-        let taskStatus = this.checkStatus(todoList)
+        let taskStatus = this.checkStatus(this.todoList)
         console.log("현재상태 : " + "todo:" + taskStatus.todo.length + "개, doing:" 
             + taskStatus.doing.length + "개, done:" + taskStatus.done.length + "개");
     }
     
     add(task){
-        try {
-            let createDate;
-            todoList.push({id: (todoList.length)+1, task: task, status: "todo", date: createDate = new Date()});
-        
-            console.log("id: " + todoList[todoList.length-1].id + ", " + todoList[todoList.length-1].task + " 항목이 새로 추가됐습니다.");
-            this.printStatus();} catch(err){
-                console.log("정상 입력이 아닙니다.");
-            }
+        let createDate;
+        this.todoList.push({id: (this.todoList.length)+1, task: task, status: "todo", date: createDate = new Date()});
+    
+        console.log("id: " + this.todoList[this.todoList.length-1].id + ", " + this.todoList[this.todoList.length-1].task + " 항목이 새로 추가됐습니다.");
+        this.printStatus(); 
     }
 
     show(task){
-        let taskStatus = this.checkStatus(todoList);
+        let taskStatus = this.checkStatus(this.todoList);
     
         switch(task){
             case "todo":
@@ -70,7 +70,7 @@ const Command = class {
         let doneDate;
         let updateTask=[];
 
-        todoList.forEach((v) => updateTask = todoList.filter(v => v.id == updateId));
+        this.todoList.forEach((v) => updateTask = this.todoList.filter(v => v.id == updateId));
 
         if(newStatus == "done"){
             updateTask[0].status = newStatus;
@@ -83,23 +83,15 @@ const Command = class {
     }
 }
 
-const commandAdd = new Command("ADD$첫번째 todo");
-const commandAdd2 = new Command("add$ 두번째 Todo");
-const commandAdd3 = new Command("add $세번째 todo");
-commandAdd.setFn();
-commandAdd2.setFn();
-commandAdd3.setFn();
+const commandTask = new Command();
+commandTask.orderTask("ADD$첫번째 todo");
+commandTask.orderTask("add$ 두번째 Todo");
+commandTask.orderTask("add $세번째 todo");
 
-const commandAddErr = new Command("err ");
-commandAddErr.setFn();
+commandTask.orderTask("err ");
 
-const commandShow = new Command("show $ todo");
-commandShow.setFn();
+commandTask.orderTask("show $ todo");
 
-const commandUpdate = new Command("update $ 3 $ done");
-commandUpdate.setFn();
-const commandUpdate2 = new Command("update $ 2 $ doing");
-commandUpdate2.setFn();
-
-const commandShow2 = new Command("show $ done");
-commandShow2.setFn();
+commandTask.orderTask("update $ 3 $ done");
+commandTask.orderTask("update $ 2 $ doing");
+commandTask.orderTask("show $ done");
