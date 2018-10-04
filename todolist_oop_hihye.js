@@ -48,10 +48,13 @@ const Command = class {
         switch(task){
             case "todo":
                 taskStatus.todo.forEach((v) => console.log("show: todo 상태인 id: " + v.id + ", " + v.task));
+                break;
             case "doing":
                 taskStatus.doing.forEach((v) => console.log("show: doing 상태인 id: " + v.id + ", " + v.task));
+                break;
             case "done":
                 taskStatus.done.forEach((v) => console.log("show: done 상태인 id: " + v.id + ", " + v.task));
+                break;
         }
     }
 
@@ -60,7 +63,7 @@ const Command = class {
         let sec = Math.floor(rest / 1000 % 60);
         let min = Math.floor(rest / 1000 / 60) % 60;
         let hours = Math.floor(rest / 1000 / 60 / 60) % 24;
-        let days = Math.floor(rest / 1000 / 60 / 60 / 24)-30; // day 차이가 있을 경우 한 달 차이가 나는데 아직 이렇게 밖에 계산을... ㅠㅠ
+        let days = Math.floor(rest / 1000 / 60 / 60 / 24) % 30; // day 차이가 있을 경우 한 달 차이가 나는데 아직 이렇게 밖에 계산을... ㅠㅠ
     
         console.log("ID " + updateTask.id + "을 " + updateTask.status + "상태로 변경하였습니다. 소요시간은 " + 
             days + "일 " + hours + ":" + min + ":" + sec + " 입니다.");
@@ -94,4 +97,7 @@ commandTask.orderTask("show $ todo");
 
 commandTask.orderTask("update $ 3 $ done");
 commandTask.orderTask("update $ 2 $ doing");
+
+commandTask.orderTask("SHOW$ todo");
+commandTask.orderTask("show $DOING");
 commandTask.orderTask("show $ done");
